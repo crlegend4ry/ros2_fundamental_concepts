@@ -35,7 +35,7 @@ To test understanding of ROS2 fundamental concepts such as “Publisher”, “S
 - Task B2(Service Client): Create a client node “square_service_client” to call your created service.
 
 ### Section C: Action
-- Task C1(Action Server): Create an action server node named “rotate_action_server” using a custom action definition “Rotate.action”.
+- Task C1(Action Server): Create an action server node named “rotate_action_server” using a custom action definition “Rotate.action”:
 
   <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
 
