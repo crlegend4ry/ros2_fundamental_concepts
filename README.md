@@ -23,7 +23,7 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 ### Section A: Publisher and Subscriber
 - Task A1(Publisher): Create a node name "circle_publisher" that continuously publishes desire velocity commands <code>geometry_msgs/msg/Twist</code> to make Turtlebot3 move in a circle of radius ~0.5 meters.
   
-- Task A2(Subscriber): Create a node name “odom_logger" that subscribes to <code>/odom</code> and prints:
+- Task A2(Subscriber): Create a node name "odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
   - Robot's orientation(yaw angle)
 
