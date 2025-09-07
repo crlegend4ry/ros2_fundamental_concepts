@@ -1,11 +1,11 @@
 # ROS2 Fundamental Concepts
 This project is part of a ROS2 examination designed to assess the understanding of core ROS2 concepts through a TurtleBot3 simulation in Gazebo. The exam is divided into three parts — Publisher/Subscriber, Service, and Action — each requiring the creation and use of ROS2 nodes in Python or C++.
 
-**Part A**: Implements a <code>circle_publisher</code> node to send velocity commands for circular motion and an <code>odom_logger</code> subscriber node to read and log robot odometry.
+**Part A:** Implements a <code>circle_publisher</code> node to send velocity commands for circular motion and an <code>odom_logger</code> subscriber node to read and log robot odometry.
 
-**Part B**: Introduces a <code>square_service_server</code> that makes the robot move in a square when triggered, along with a <code>square_service_client</code> to call the service.
+**Part B:** Introduces a <code>square_service_server</code> that makes the robot move in a square when triggered, along with a <code>square_service_client</code> to call the service.
 
-**Part C**: Features a <code>rotate_action_server</code> to rotate the robot by a specified angle with periodic feedback, and a <code>rotate_action_client</code> to send goals and monitor progress.
+**Part C:** Features a <code>rotate_action_server</code> to rotate the robot by a specified angle with periodic feedback, and a <code>rotate_action_client</code> to send goals and monitor progress.
 
 All components are structured within a clean ROS2 package, demonstrating practical use of topics, services, and actions.
 
