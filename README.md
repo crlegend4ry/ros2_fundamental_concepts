@@ -37,9 +37,14 @@ To test understanding of ROS2 fundamental concepts such as “Publisher”, “S
 ### Section C: Action
 - Task C1(Action Server): Create an action server node named “rotate_action_server” using a custom action definition “Rotate.action”.
 
+  <img width="783" height="249" alt="Custom Action Definition" src="https://github.com/user-attachments/assets/668d4451-1180-4560-aeca-3afded29d9a6" />
+
   The server should:
   - Rotate the Turtlebot3 in place by publishing “/cmd_vel”.
   - Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:
+
+    <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
+
   - Publish feedback every 0.1 second (10 Hz).
   - Stop and succeed when finished.
 
