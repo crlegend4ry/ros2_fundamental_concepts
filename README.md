@@ -1,11 +1,11 @@
 # ROS2 Fundamental Concepts
 This project is part of a ROS2 examination that tests the understanding of basic ROS2 concepts by using a robot simulation with TurtleBot3 in Gazebo. The test is divided into three parts: Publisher and Subscriber, Service, and Action. Each part checks if the user can build and use different types of ROS2 nodes in Python or C++.
 
-In **Part A**, the user creates a publisher node called ***"circle_publisher"***, which sends speed commands to make the robot move in a circle. Also, a subscriber node called ***"odom_logger"*** reads the robot’s position and direction from the "/odom" topic and prints them.
+In **Part A**, the user creates a publisher node called <code>circle_publisher</code>, which sends speed commands to make the robot move in a circle. Also, a subscriber node called <code>odom_logger</code> reads the robot’s position and direction from the <code>/odom</code> topic and prints them.
 
-In **Part B**, the user builds a service server called ***"square_service_server"***. When another node calls this service, the robot moves in a square shape and then stops. A service client node called ***"square_service_client"*** is also created to call this service.
+In **Part B**, the user builds a service server called <code>square_service_server"</code>. When another node calls this service, the robot moves in a square shape and then stops. A service client node called <code>square_service_client</code> is also created to call this service.
 
-In **Part C**, the user creates an action server called ***"rotate_action_server"***. This node rotates the robot by a given angle, sends feedback every 0.1 seconds, and stops when the robot finishes turning. A matching action client node, ***"rotate_action_client"***, sends the goal, shows the feedback(how much angle is left), and tells if the task was successful.
+In **Part C**, the user creates an action server called <code>rotate_action_server</code>. This node rotates the robot by a given angle, sends feedback every 0.1 seconds, and stops when the robot finishes turning. A matching action client node, <code>rotate_action_client</code>, sends the goal, shows the feedback, and tells if the task was successful.
 
 All the code must be placed inside a well-organized ROS2 package with clear and meaningful node names. This examination is designed to show the learner’s ability to apply ROS2 communication methods using topics, services, and actions in a practical situation.
 
