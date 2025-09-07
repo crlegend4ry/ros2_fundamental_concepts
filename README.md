@@ -11,7 +11,7 @@ All the code must be placed inside a well-organized ROS2 package with clear and 
 
 
 ## Objectives
-To test understanding of ROS2 fundamental concepts such as "Publisher", "Subscriber", "Interface", "Service", and "Action" through the simulation software and implementation.
+To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subscriber**, **Interface**, **Service**, and **Action** through the simulation software and implementation.
 
 
 ## Instructions
@@ -21,34 +21,38 @@ To test understanding of ROS2 fundamental concepts such as "Publisher", "Subscri
 
 
 ### Section A: Publisher and Subscriber
-- Task A1(Publisher): Create a node name “circle_publisher” that continuously publishes desire velocity commands (geometry_msgs/msg/Twist) to make Turtlebot3 move in a circle of radius ~0.5 meters.
+- Task A1(Publisher): Create a node name "circle_publisher" that continuously publishes desire velocity commands <code>geometry_msgs/msg/Twist</code> to make Turtlebot3 move in a circle of radius ~0.5 meters.
   
-- Task A2(Subscriber): Create a node name “odom_logger” that subscribes to “/odom” and prints:
+- Task A2(Subscriber): Create a node name “odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
   - Robot's orientation(yaw angle)
 
 ### Section B: Service
-- Task B1(Service Server): Create a service server node named “square_service_server” with service type “std_srvs/srv/Empty”.
+- Task B1(Service Server): Create a service server node named "square_service_server" with service type <code>std_srvs/srv/Empty</code>.
   - When called, the robot should move in a square path with 0.5 meter per side using the velocity commands.
   - After finishing, the robot should stop.
 
-- Task B2(Service Client): Create a client node “square_service_client” to call your created service.
+- Task B2(Service Client): Create a client node "square_service_client" to call your created service.
 
 ### Section C: Action
-- Task C1(Action Server): Create an action server node named “rotate_action_server” using a custom action definition “Rotate.action”:
+- Task C1(Action Server): Create an action server node named "rotate_action_server" using a custom action definition <code>Rotate.action</code>:
 
+<div align="center">
   <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
+</div>
 
   The server should:
-  - Rotate the Turtlebot3 in place by publishing “/cmd_vel”.
+  - Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.
   - Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:
 
-    <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
+<div align="center">
+  <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
+</div>
 
   - Publish feedback every 0.1 second (10 Hz).
   - Stop and succeed when finished.
 
-- Task C2(Action Client): Create a client node “rotate_action_client” that:
+- Task C2(Action Client): Create a client node "rotate_action_client" that:
   - Sends a goal angle (e.g., +3.14 radians or 180 degrees).
   - Prints feedback (remaining angle).
-  - Prints the result when done: “Goal reached successfully” or “Goal aborted”.
+  - Prints the result when done: "Goal reached successfully" or "Goal aborted".
