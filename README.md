@@ -37,7 +37,7 @@ To test understanding of ROS2 fundamental concepts such as “Publisher”, “S
 ### Section C: Action
 - Task C1(Action Server): Create an action server node named “rotate_action_server” using a custom action definition “Rotate.action”.
 
-  <img width="783" height="249" alt="Custom Action Definition" src="https://github.com/user-attachments/assets/668d4451-1180-4560-aeca-3afded29d9a6" />
+  <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
 
   The server should:
   - Rotate the Turtlebot3 in place by publishing “/cmd_vel”.
