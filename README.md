@@ -11,7 +11,7 @@ All the code must be placed inside a well-organized ROS2 package with clear and 
 
 
 ## Objectives
-To test understanding of ROS2 fundamental concepts such as “Publisher”, “Subscriber”, “Interface”, “Service”, and “Action” through the simulation software and implementation.
+To test understanding of ROS2 fundamental concepts such as "Publisher", "Subscriber", "Interface", "Service", and "Action" through the simulation software and implementation.
 
 
 ## Instructions
