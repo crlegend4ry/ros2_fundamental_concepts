@@ -76,7 +76,7 @@ private:
             double current_yaw = prev_yaw + M_PI_2;
             double error = normalize_angle(current_yaw - yaw);
 
-            if (std::abs(error) > 0.08) {
+            if (std::abs(error) > 0.07) {
                 cmd.angular.z = angular_speed;
             } else {
                 cmd.angular.z = 0.0;
@@ -143,9 +143,9 @@ private:
     }
 
     double normalize_angle(double angle) {
-        while (angle > M_PI) angle -= 2 * M_PI;
-        while (angle < -M_PI) angle += 2 * M_PI;
-        return angle;
+        angle = std::fmod(angle + M_PI, 2 * M_PI);  
+        if (angle < 0) angle += 2 * M_PI;                
+        return angle - M_PI;                 
     }
 
     int state;
