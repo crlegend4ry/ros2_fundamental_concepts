@@ -54,11 +54,11 @@ private:
 
         geometry_msgs::msg::Twist cmd;
 
-        double target_x = odom_msg->pose.pose.position.x;
-        double target_y = odom_msg->pose.pose.position.y;
+        double current_x = odom_msg->pose.pose.position.x;
+        double current_y = odom_msg->pose.pose.position.y;
 
-        double dx = target_x - current_x;
-        double dy = target_y - current_y;
+        double dx = current_x - prev_x;
+        double dy = current_y - prev_y;
         double distance = std::sqrt((dx * dx) + (dy * dy));
 
         if (state == STATE_MOVING_FORWARD) {
@@ -73,8 +73,8 @@ private:
                 return;
             }
         } else if (state == STATE_ROTATING) {
-            double target_yaw = current_yaw + M_PI_2;
-            double error = normalize_angle(target_yaw - yaw);
+            double current_yaw = prev_yaw + M_PI_2;
+            double error = normalize_angle(current_yaw - yaw);
 
             if (std::abs(error) > 0.08) {
                 cmd.angular.z = angular_speed;
@@ -116,8 +116,8 @@ private:
         n_side = 0;
         state = STATE_MOVING_FORWARD;
 
-        current_x = odom_msg->pose.pose.position.x;
-        current_y = odom_msg->pose.pose.position.y;
+        prev_x = odom_msg->pose.pose.position.x;
+        prev_y = odom_msg->pose.pose.position.y;
 
         timer_ = this->create_wall_timer(50ms, std::bind(&ServiceServer::control_loop, this));
     }
@@ -125,15 +125,15 @@ private:
     void start_moving_forward() {
         if (delay_timer_) delay_timer_->cancel();
 
-        current_x = odom_msg->pose.pose.position.x;
-        current_y = odom_msg->pose.pose.position.y;
+        prev_x = odom_msg->pose.pose.position.x;
+        prev_y = odom_msg->pose.pose.position.y;
         state = STATE_MOVING_FORWARD;
     }
 
     void start_rotating() {
         if (delay_timer_) delay_timer_->cancel();
 
-        current_yaw = yaw;
+        prev_yaw = yaw;
         state = STATE_ROTATING;
     }
 
@@ -154,9 +154,9 @@ private:
     double linear_speed;
     double angular_speed;
 
-    double current_x;
-    double current_y;
-    double current_yaw;
+    double prev_x;
+    double prev_y;
+    double prev_yaw;
 
     double roll, pitch, yaw;
 
