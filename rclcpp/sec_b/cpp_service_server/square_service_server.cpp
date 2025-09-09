@@ -1,178 +1,168 @@
 #include <cmath>
 #include <memory>
 #include <chrono>
+#include <vector>
+
+#include <stdio.h>
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_srvs/srv/empty.hpp"
-#include "nav_msgs/msg/odometry.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "tf2/LinearMath/Quaternion.h"
-#include "tf2/LinearMath/Matrix3x3.h"
+#include "nav_msgs/msg/odometry.hpp"
+#include "std_srvs/srv/empty.hpp"
 
 using namespace std::chrono_literals;
 
-class ServiceServer : public rclcpp::Node
-{
-public:
-    ServiceServer() : Node("square_service_server"),
-                      state(STATE_IDLE),
-                      n_side(0),
-                      side_length(0.5),
-                      linear_speed(0.17),
-                      angular_speed(0.7)
-    {
-        service_ = this->create_service<std_srvs::srv::Empty>(
-            "square_service",
-            std::bind(&ServiceServer::handle_service, this,
-                      std::placeholders::_1,
-                      std::placeholders::_2,
-                      std::placeholders::_3));
+class ServiceServer : public rclcpp::Node {
+    public:
+        ServiceServer() : Node("square_service_server"),
+                          waypoint_index(0),
+                          goal_x(0.0),
+                          goal_y(0.0),
+                          yaw(0.0),
+                          linear_speed(0.22),
+                          angular_speed(0.3),
+                          goal_tolerance(0.03),
+                          goal_reached(true)
+        {
+            service_ = this->create_service<std_srvs::srv::Empty>("square_service",
+                                std::bind(&ServiceServer::handle_service, this,
+                                    std::placeholders::_1,
+                                    std::placeholders::_2,
+                                    std::placeholders::_3));
 
-        vel_pub = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
-        odom_sub = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10,
-            std::bind(&ServiceServer::odom_callback, this, std::placeholders::_1));
-    }
+            vel_pub = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+            odom_sub = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10,
+                                std::bind(&ServiceServer::odom_callback, this, 
+                                    std::placeholders::_1));
 
-private:
-    const int STATE_IDLE = 0;
-    const int STATE_MOVING_FORWARD = 1;
-    const int STATE_WAIT_BEFORE_ROTATE = 2;
-    const int STATE_ROTATING = 3;
-    const int STATE_WAIT_AFTER_ROTATE = 4;
+            timer_ = this->create_wall_timer(50ms, std::bind(&ServiceServer::move_robot, this));
+        }
 
-    void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg) {
-        odom_msg = msg;
+        void set_waypoints(const std::vector<std::pair<double, double>> &points) {
+            waypoints = points;
+        }
 
-        auto q = msg->pose.pose.orientation;
-        tf2::Quaternion quat(q.x, q.y, q.z, q.w);
-        tf2::Matrix3x3 m(quat);
-        m.getRPY(roll, pitch, yaw);
-    }
+    private:
+        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub;
+        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub;
+        rclcpp::Service<std_srvs::srv::Empty>::SharedPtr service_;
+        rclcpp::TimerBase::SharedPtr timer_;
 
-    void control_loop() {
-        if (!odom_msg) return;
+        nav_msgs::msg::Odometry::SharedPtr odom_msg;
 
-        geometry_msgs::msg::Twist cmd;
+        std::vector<std::pair<double, double>> waypoints;
+        size_t waypoint_index;
 
-        double current_x = odom_msg->pose.pose.position.x;
-        double current_y = odom_msg->pose.pose.position.y;
+        double goal_x, goal_y, yaw;
+        double linear_speed, angular_speed;
+        double goal_tolerance;
+        bool goal_reached;
 
-        double dx = current_x - prev_x;
-        double dy = current_y - prev_y;
-        double distance = std::sqrt((dx * dx) + (dy * dy));
-
-        if (state == STATE_MOVING_FORWARD) {
-            if (distance < side_length) {
-                cmd.linear.x = linear_speed;
-            } else {
-                cmd.linear.x = 0.0;
-                vel_pub->publish(cmd);
-
-                state = STATE_WAIT_BEFORE_ROTATE;
-                delay_timer_ = this->create_wall_timer(250ms, std::bind(&ServiceServer::start_rotating, this));
+        void handle_service(
+            const std::shared_ptr<rmw_request_id_t>,
+            const std::shared_ptr<std_srvs::srv::Empty::Request>,
+            const std::shared_ptr<std_srvs::srv::Empty::Response>)
+        {
+            if (!odom_msg) {
+                RCLCPP_WARN(this->get_logger(), "No odometry yet.");
                 return;
             }
-        } else if (state == STATE_ROTATING) {
-            double current_yaw = prev_yaw + M_PI_2;
-            double error = normalize_angle(current_yaw - yaw);
 
-            if (std::abs(error) > 0.07) {
-                cmd.angular.z = angular_speed;
-            } else {
-                cmd.angular.z = 0.0;
-                vel_pub->publish(cmd);
+            if (waypoints.empty()) {
+                RCLCPP_WARN(this->get_logger(), "No waypoints defined.");
+                return;
+            }
 
-                n_side++;
-                if (n_side >= 4) {
-                    stop_robot();
-                    timer_->cancel();
-                    state = STATE_IDLE;
-                    return;
+            waypoint_index = 0;
+            goal_x = waypoints[waypoint_index].first;
+            goal_y = waypoints[waypoint_index].second;
+            goal_reached = false;
+
+            RCLCPP_INFO(this->get_logger(), "Starting square path");
+        }
+
+        void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg) {
+            odom_msg = msg;
+            
+            auto q = msg->pose.pose.orientation;
+            yaw = std::atan2(2.0 * ((q.w * q.z) + (q.x * q.y)), 
+                                1.0 - (2.0 * ((q.y * q.y) + (q.z * q.z))));
+        }
+
+        void move_robot() {
+            if (!odom_msg || goal_reached)
+                return;
+
+            auto cmd = geometry_msgs::msg::Twist();
+
+            double current_x = odom_msg->pose.pose.position.x;
+            double current_y = odom_msg->pose.pose.position.y;
+
+            double dx = goal_x - current_x;
+            double dy = goal_y - current_y;
+            double distance = std::sqrt((dx * dx) + (dy * dy));
+
+            double target_yaw = std::atan2(dy, dx);
+            double yaw_error = normalize_angle(target_yaw - yaw);
+
+            /* For debugging output */
+            
+            // printf(">>> Linear Distance <<<\n");
+            // printf("gx, gy: '%.2lf, %.2lf' | cx, cy: '%.2lf, %.2lf'", goal_x, goal_y, current_x, current_y);
+            // printf(" | dx, dy: '%.2lf, %.2lf'\n", dx, dy);
+            // printf("distance: %.2lf\n\n", distance);
+
+            // printf(">>> Angular Distance <<<\n");
+            // printf("target_yaw: %.2lf, yaw: %.2lf, yaw_error: %.2lf\n\n", yaw, target_yaw, yaw_error);
+
+            if (distance > goal_tolerance) {
+                if (std::abs(yaw_error) > 0.1) {
+                    // std::cout << "Rotate" << std::endl;
+                    if (yaw_error > 0) cmd.angular.z = angular_speed;
+                    else cmd.angular.z = -angular_speed;
+                } else {
+                    // std::cout << "Move straight" << std::endl;
+                    cmd.linear.x = linear_speed;
                 }
-
-                state = STATE_WAIT_AFTER_ROTATE;
-                delay_timer_ = this->create_wall_timer(250ms, std::bind(&ServiceServer::start_moving_forward, this));
-                return;
+            } else {
+                waypoint_index++;
+                if (waypoint_index < waypoints.size()) {
+                    // std::cout << "Next waypoint" << std::endl;
+                    goal_x = waypoints[waypoint_index].first;
+                    goal_y = waypoints[waypoint_index].second;
+                } else {
+                    RCLCPP_INFO(this->get_logger(), "Completed square path");
+                    goal_reached = true;
+                    stop_robot();
+                }
             }
-        } else if (state == STATE_WAIT_BEFORE_ROTATE || state == STATE_WAIT_AFTER_ROTATE || state == STATE_IDLE) {
-            return;
+            
+            vel_pub->publish(cmd);
         }
 
-        vel_pub->publish(cmd);
-    }
-
-    void handle_service(
-        const std::shared_ptr<rmw_request_id_t>,
-        const std::shared_ptr<std_srvs::srv::Empty::Request>,
-        const std::shared_ptr<std_srvs::srv::Empty::Response>)
-    {
-        if (!odom_msg) {
-            RCLCPP_WARN(this->get_logger(), "No odometry received yet.");
-            return;
+        void stop_robot() {
+            auto stop_cmd = geometry_msgs::msg::Twist();
+            vel_pub->publish(stop_cmd);
+            // std::cout << "Stop robot" << std::endl;
         }
 
-        RCLCPP_INFO(this->get_logger(), "Service called: Moving robot in a square.");
-
-        n_side = 0;
-        state = STATE_MOVING_FORWARD;
-
-        prev_x = odom_msg->pose.pose.position.x;
-        prev_y = odom_msg->pose.pose.position.y;
-
-        timer_ = this->create_wall_timer(50ms, std::bind(&ServiceServer::control_loop, this));
-    }
-
-    void start_moving_forward() {
-        if (delay_timer_) delay_timer_->cancel();
-
-        prev_x = odom_msg->pose.pose.position.x;
-        prev_y = odom_msg->pose.pose.position.y;
-        state = STATE_MOVING_FORWARD;
-    }
-
-    void start_rotating() {
-        if (delay_timer_) delay_timer_->cancel();
-
-        prev_yaw = yaw;
-        state = STATE_ROTATING;
-    }
-
-    void stop_robot() {
-        geometry_msgs::msg::Twist stop_cmd;
-        vel_pub->publish(stop_cmd);
-    }
-
-    double normalize_angle(double angle) {
-        angle = std::fmod(angle + M_PI, 2 * M_PI);  
-        if (angle < 0) angle += 2 * M_PI;                
-        return angle - M_PI;                 
-    }
-
-    int state;
-    int n_side;
-    double side_length;
-    double linear_speed;
-    double angular_speed;
-
-    double prev_x;
-    double prev_y;
-    double prev_yaw;
-
-    double roll, pitch, yaw;
-
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub;
-    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr service_;
-    rclcpp::TimerBase::SharedPtr delay_timer_;
-    rclcpp::TimerBase::SharedPtr timer_;
-
-    nav_msgs::msg::Odometry::SharedPtr odom_msg;
+        double normalize_angle(double angle) {
+            angle = std::fmod(angle + M_PI, 2 * M_PI);
+            if (angle < 0) angle += 2 * M_PI;
+            return angle - M_PI;
+        }
 };
 
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
-    auto service_server = std::make_shared<ServiceServer>();
-    rclcpp::spin(service_server);
+    auto node = std::make_shared<ServiceServer>();
+
+    node->set_waypoints({{0.5, 0.0},
+                         {0.5, 0.5},
+                         {0.0, 0.5},
+                         {0.0, 0.0}});
+
+    rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;
 }

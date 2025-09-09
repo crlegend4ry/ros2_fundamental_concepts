@@ -10,10 +10,9 @@ find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(tf2 REQUIRED)
 
 add_executable(square_service_server square_service_server.cpp)
-ament_target_dependencies(square_service_server rclcpp std_srvs nav_msgs geometry_msgs tf2)
+ament_target_dependencies(square_service_server rclcpp std_srvs nav_msgs geometry_msgs)
 
 target_include_directories(square_service_server PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
