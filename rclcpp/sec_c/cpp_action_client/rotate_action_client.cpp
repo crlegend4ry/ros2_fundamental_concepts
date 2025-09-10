@@ -2,7 +2,6 @@
 #include <cmath>
 #include <functional>
 #include <memory>
-#include <string>
 
 #include "action_interfaces/action/rotate.hpp"
 #include "rclcpp/rclcpp.hpp"
