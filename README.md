@@ -25,9 +25,8 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
   
 - Task A2(Subscriber): Create a node name "odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
-  - Robot's orientation(yaw angle) <br/>
-  **Note: Please look up on keyword "Quaternion to Euler angle" and "yaw" angle <br/> is the heading angle of the robot.**
-    
+  - Robot's orientation(yaw angle)
+
 <br/>
 <div align="center">
   <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
@@ -55,15 +54,19 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
     <li>Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.</li>
     <li>Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:</li>
   </ul>
-<ul>
+</ul>
 
 <div align="center">
   <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
 </div>
 <br/>
 
-    - Publish feedback every 0.1 second (10 Hz).
-    - Stop and succeed when finished.
+<ul>
+  <ul>
+    <li>Publish feedback every 0.1 second (10 Hz).</li>
+    <li>Stop and succeed when finished.</li>
+  </ul>
+</ul>
 
 - Task C2(Action Client): Create a client node "rotate_action_client" that:
   - Sends a goal angle (e.g., +3.14 radians or 180 degrees).
