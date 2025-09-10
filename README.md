@@ -29,14 +29,12 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
   
   **Hint: Please look up on keyword “quaternion to Euler angle” and “yaw” angle is the heading angle of the robot.**
     
-    <br/>
-    <div align="center">
-      <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
-    </div>
-    <br/>
-
-  <div align="center"> Ref: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles </div>
-
+  <br/>
+  <div align="center">
+    <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
+    Reference: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+  </div>
+  
 ### Section B: Service
 - Task B1(Service Server): Create a service server node named "square_service_server" with service type <code>std_srvs/srv/Empty</code>.
   - When called, the robot should move in a square path with 0.5 meter per side using the velocity commands.
