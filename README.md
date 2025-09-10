@@ -49,9 +49,12 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 </div>
 <br/>
 
-  <ul>The server should:</ul>
-    <li>- Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.</li>
-    <li>- Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:</li>
+  <ul>The server should:
+    <ol>
+      <li>Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.</li>
+      <li>Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:</li>
+    </ol>
+  </ul>
 
 <br/>
   <div align="center">
