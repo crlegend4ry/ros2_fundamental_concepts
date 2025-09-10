@@ -26,7 +26,7 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 - Task A2(Subscriber): Create a node name "odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
   - Robot's orientation(yaw angle)
-    **Note: Please look up on keyword “Quaternion to Euler angle” and “yaw” angle is the heading angle of the robot.**
+  **Note: Please look up on keyword "Quaternion to Euler angle" and "yaw" angle is the heading angle of the robot.**
     
   <br/>
   <div align="center">
