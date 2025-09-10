@@ -8,11 +8,9 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-
 
 add_executable(odom_logger odom_logger.cpp)
-ament_target_dependencies(odom_logger rclcpp nav_msgs tf2)
+ament_target_dependencies(odom_logger rclcpp nav_msgs)
 
 target_include_directories(odom_logger PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
