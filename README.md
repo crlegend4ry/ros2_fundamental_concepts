@@ -27,7 +27,6 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
   - Robot's position(x, y)
   - Robot's orientation(yaw angle)
 
-<br/>
 <div align="center">
   <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
   Reference: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
