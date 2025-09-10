@@ -26,13 +26,13 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 - Task A2(Subscriber): Create a node name "odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
   - Robot's orientation(yaw angle) <br/>
-  **Note: Please look up on keyword "Quaternion to Euler angle" and "yaw" angle is the heading angle of the robot.**
+  **Note: Please look up on keyword "Quaternion to Euler angle" and "yaw" angle <br/> is the heading angle of the robot.**
     
-  <br/>
-  <div align="center">
-    <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
-    Reference: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-  </div>
+<br/>
+<div align="center">
+  <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
+  Reference: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+</div>
 
 ### Section B: Service
 - Task B1(Service Server): Create a service server node named "square_service_server" with service type <code>std_srvs/srv/Empty</code>.
@@ -44,19 +44,21 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 ### Section C: Action
 - Task C1(Action Server): Create an action server node named "rotate_action_server" using a custom action definition <code>Rotate.action</code>:
 
-  <div align="center">
-    <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
-  </div>
+<br/>
+<div align="center">
+  <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
+</div>
+<br/>
 
   The server should:
     - Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.
     - Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:
 
-    <br/>
-    <div align="center">
-      <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
-    </div>
-    <br/>
+<br/>
+  <div align="center">
+    <img width="883" height="203" alt="Image" src="https://github.com/user-attachments/assets/0a748a39-7e30-40d3-b022-c8047fb59118" />
+  </div>
+<br/>
 
     - Publish feedback every 0.1 second (10 Hz).
     - Stop and succeed when finished.
