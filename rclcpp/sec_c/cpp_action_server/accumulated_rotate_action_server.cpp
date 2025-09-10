@@ -65,8 +65,6 @@ class ActionServer : public rclcpp::Node {
             double previous_yaw = yaw;
             double accumulated_angle = 0.0;
 
-            RCLCPP_INFO(this->get_logger(), "Starting accumulated rotation: %.2f rad", goal->angle);
-
             while (rclcpp::ok()) {
                 double delta_yaw = normalize_angle(yaw - previous_yaw);
                 accumulated_angle += delta_yaw;
