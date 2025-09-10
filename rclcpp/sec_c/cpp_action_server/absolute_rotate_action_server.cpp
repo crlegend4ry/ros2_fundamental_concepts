@@ -76,7 +76,7 @@ class ActionServer : public rclcpp::Node {
         goal_handle->publish_feedback(feedback);
 
         if (std::abs(yaw_error) < tolerance) {
-          // std::cout << "Rotate is done" << std::endl;
+          // std::cout << "Rotate is completed" << std::endl;
           break;
         }
 

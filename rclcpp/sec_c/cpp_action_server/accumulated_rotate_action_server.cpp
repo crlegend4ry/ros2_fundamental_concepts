@@ -90,7 +90,6 @@ class ActionServer : public rclcpp::Node {
             stop_robot();
             result->success = true;
             goal_handle->succeed(result);
-            RCLCPP_INFO(this->get_logger(), "Accumulated rotation complete.");
         }
 
         void stop_robot() {
