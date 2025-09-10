@@ -1,3 +1,7 @@
+#include <functional>
+#include <memory>
+#include <cmath>
+
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 
