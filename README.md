@@ -44,15 +44,14 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 ### Section C: Action
 - Task C1(Action Server): Create an action server node named "rotate_action_server" using a custom action definition <code>Rotate.action</code>:
 
-<br/>
 <div align="center">
   <img width="778" height="247" alt="Image" src="https://github.com/user-attachments/assets/1b30c016-2022-496b-987e-ab4d5b921492" />
 </div>
 <br/>
 
-  The server should:
-    - Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.
-    - Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:
+  <ul>The server should:</ul>
+    <li>- Rotate the Turtlebot3 in place by publishing <code>/cmd_vel</code>.</li>
+    <li>- Track the remaining angle of the robot for calculating the proper velocity through the simple P controller by the following concept:</li>
 
 <br/>
   <div align="center">
