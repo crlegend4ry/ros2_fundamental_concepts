@@ -11,13 +11,12 @@ find_package(rclcpp_action REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(action_interfaces REQUIRED)
-find_package(tf2 REQUIRED)
 
 add_executable(absolute_rotate_action_server absolute_rotate_action_server.cpp)
-ament_target_dependencies(absolute_rotate_action_server rclcpp rclcpp_action geometry_msgs nav_msgs action_interfaces tf2)
+ament_target_dependencies(absolute_rotate_action_server rclcpp rclcpp_action geometry_msgs nav_msgs action_interfaces)
 
 add_executable(accumulated_rotate_action_server accumulated_rotate_action_server.cpp)
-ament_target_dependencies(accumulated_rotate_action_server rclcpp rclcpp_action geometry_msgs nav_msgs action_interfaces tf2)
+ament_target_dependencies(accumulated_rotate_action_server rclcpp rclcpp_action geometry_msgs nav_msgs action_interfaces)
 
 target_include_directories(absolute_rotate_action_server PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
