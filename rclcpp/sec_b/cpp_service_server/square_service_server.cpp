@@ -3,7 +3,7 @@
 #include <chrono>
 #include <vector>
 
-#include <stdio.h>
+// #include <stdio.h>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
