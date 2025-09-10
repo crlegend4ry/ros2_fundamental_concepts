@@ -35,7 +35,7 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
     </div>
     <br/>
 
-  Ref: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+  <div align="center"> Ref: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles </div>
 
 ### Section B: Service
 - Task B1(Service Server): Create a service server node named "square_service_server" with service type <code>std_srvs/srv/Empty</code>.
