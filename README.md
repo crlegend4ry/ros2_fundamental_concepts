@@ -26,13 +26,16 @@ To test understanding of ROS2 fundamental concepts such as **Publisher**, **Subs
 - Task A2(Subscriber): Create a node name "odom_logger" that subscribes to <code>/odom</code> and prints:
   - Robot's position(x, y)
   - Robot's orientation(yaw angle)
-    **Hint: Please look up on keyword “quaternion to Euler angle” and “yaw” angle is the heading angle of the robot.**
+  
+  **Hint: Please look up on keyword “quaternion to Euler angle” and “yaw” angle is the heading angle of the robot.**
     
     <br/>
     <div align="center">
-      <img width="966" height="412" alt="Image" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
+      <img width="966" height="412" alt="eulor_angle_conversion" src="https://github.com/user-attachments/assets/71098397-1dac-4bff-a654-2cc4ab71e065" />
     </div>
     <br/>
+
+  Ref: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
 ### Section B: Service
 - Task B1(Service Server): Create a service server node named "square_service_server" with service type <code>std_srvs/srv/Empty</code>.
