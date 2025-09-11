@@ -1,5 +1,6 @@
 #include <functional>
 #include <memory>
+#include <thread>
 #include <cmath>
 
 #include "rclcpp/rclcpp.hpp"
@@ -45,7 +46,8 @@ class ActionServer : public rclcpp::Node {
                                 const rclcpp_action::GoalUUID &, 
                                 std::shared_ptr<const Rotate::Goal> goal) 
     {
-      RCLCPP_INFO(this->get_logger(), "Received goal: Rotate %.2f deg (%.2f rad)", goal->angle * 180 / M_PI, goal->angle);
+      RCLCPP_INFO(this->get_logger(), "Received goal: Rotate %.2f deg (%.2f rad)", 
+                                        goal->angle * 180 / M_PI, goal->angle);
       return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
     }
 
@@ -80,7 +82,7 @@ class ActionServer : public rclcpp::Node {
           break;
         }
 
-        geometry_msgs::msg::Twist cmd;
+        auto cmd = geometry_msgs::msg::Twist();
         cmd.angular.z = Kp * yaw_error;
         // std::cout << "ang_vel: " << cmd.angular.z << std::endl;
         vel_pub->publish(cmd);
@@ -94,7 +96,7 @@ class ActionServer : public rclcpp::Node {
     }
 
     void stop_robot() {
-      geometry_msgs::msg::Twist stop_cmd;
+      auto stop_cmd = geometry_msgs::msg::Twist();
       vel_pub->publish(stop_cmd);
       // std::cout << "Stop robot" << std::endl;
     }
