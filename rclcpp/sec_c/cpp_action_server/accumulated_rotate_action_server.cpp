@@ -1,3 +1,4 @@
+#include <functional>
 #include <memory>
 #include <thread>
 #include <cmath>
