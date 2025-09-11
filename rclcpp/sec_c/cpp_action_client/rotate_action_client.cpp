@@ -82,8 +82,8 @@ class ActionClient : public rclcpp::Node {
     }
 
     void feedback_callback(
-      GoalHandleRotate::SharedPtr,
-      const std::shared_ptr<const Rotate::Feedback> feedback) 
+          GoalHandleRotate::SharedPtr,
+          const std::shared_ptr<const Rotate::Feedback> feedback) 
     {
       double remaining_rad = feedback->remaining_angle;
       double remaining_deg = remaining_rad * 180.0 / M_PI;
