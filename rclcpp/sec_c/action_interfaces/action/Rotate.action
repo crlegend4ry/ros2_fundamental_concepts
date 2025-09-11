@@ -1,5 +1,5 @@
-# Goal : target rotation in radians (+CWW, -CW)
-float64 angle 
+# Goal 
+float64 angle # target rotation in radians (+CWW, -CW)
 ---
 # Result
 bool success
